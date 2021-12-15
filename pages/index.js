@@ -6,8 +6,18 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   const [count, setCount] = useState(0);
   const [todoList, setTodoList] = useState(["toto", "titi", "tata"]);
-  const [addTodo, setValue] = useState("");
-  const [deleteTodo, deleteValue] = useState("");
+  const [addTodo, setAddTodo] = useState("");
+  const [deleteTodo, setDeleteTodo] = useState("");
+  const [editTodo, seteditTodo] = useState("");
+  const [disabledInput, setDisabledInput] = useState(true);
+  const [editableTodo, setEditableTodo] = useState(null);
+
+  const handleChange = (e) => {
+    let newTodoList = [...todoList];
+    newTodoList[editableTodo] = e.target.value;
+    setTodoList(todoList => newTodoList);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,20 +31,28 @@ export default function Home() {
         <h3>Count : {count}</h3>
         <button onClick={() => setCount(prev => prev+1)}>Click</button>
 
-        <input onChange={(e) => setValue(addTodo => e.target.value)}></input>
+        <hr className = {styles.hrIndex}></hr>        
+
+        <input onChange={(e) => setAddTodo(addTodo => e.target.value)}/>
         <button onClick={() => setTodoList(todoList => [...todoList, addTodo])}>Add todo</button>
 
-        <hr></hr>
+        <hr className = {styles.hrIndex}></hr>
 
-        <input onChange={(e) => deleteValue(deleteTodo => e.target.value)}></input>
+        <input onChange={(e) => setDeleteTodo(deleteTodo => e.target.value)}/>
         <button onClick={() => setTodoList(todoList => todoList.filter(todo => todo !== deleteTodo))}>Delete todo</button>
 
-        <hr></hr>
+        <hr className = {styles.hrIndex}></hr>
 
         {
-          todoList.length > 1 && (
+          todoList.length > 0 && (
             todoList.map((todo, i) => {
-              return(<p key={i}>{todo}</p>)
+              return(
+                <div key={i}>
+                  <p>{todo}</p>
+                    <input value={todo} onChange={handleChange} disabled={editableTodo === i ? false : true}/>
+                    <button onClick={(item, index) => setEditableTodo(editableTodo => i)}>Edit</button>
+                </div>
+              )
             })
           )
         }

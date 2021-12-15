@@ -108,6 +108,12 @@
   margin-left: 0.5rem;
 }
 
+.hrIndex{
+  height: 3px;
+  width: 550px;
+  background-color: black;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
