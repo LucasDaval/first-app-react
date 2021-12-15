@@ -1,22 +1,35 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
+import Card from './components/Card'
 
 export default function Home() {
   const [count, setCount] = useState(0);
-  const [todoList, setTodoList] = useState(["toto", "titi", "tata"]);
+  const [todoList, setTodoList] = useState([]);
   const [addTodo, setAddTodo] = useState("");
   const [deleteTodo, setDeleteTodo] = useState("");
-  const [editTodo, seteditTodo] = useState("");
-  const [disabledInput, setDisabledInput] = useState(true);
   const [editableTodo, setEditableTodo] = useState(null);
+  const [color, setColor] = useState("#FFF");
+
 
   const handleChange = (e) => {
     let newTodoList = [...todoList];
     newTodoList[editableTodo] = e.target.value;
     setTodoList(todoList => newTodoList);
   }
+
+  useEffect(() => {
+    console.log("modifications");
+  }, [todoList])
+
+  useEffect(() => {
+    count >= 1 && setColor("#222")
+  }, [count])
+
+  useEffect(() => {
+    localStorage.setItem("todos", todoList)
+  }, [todoList])
 
   return (
     <div className={styles.container}>
@@ -27,7 +40,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1>Hello World !</h1>
+        <h1>Hello World !</h1>{/* 
         <h3>Count : {count}</h3>
         <button onClick={() => setCount(prev => prev+1)}>Click</button>
 
@@ -55,7 +68,14 @@ export default function Home() {
               )
             })
           )
-        }
+        } */}
+
+        <div className={styles.groupCards}>
+          <Card title="Carte1" desc="description1" image="https://images.unsplash.com/photo-1553481187-be93c21490a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" price="30"/>
+          <Card title="Carte2" desc="description2" image="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" price="60"/>
+          <Card title="Carte3" desc="description3" image="https://images.unsplash.com/photo-1609017909889-d7b582c072f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80" price="90"/>
+          <Card title="Carte4" desc="description5" image="https://images.unsplash.com/photo-1511193311914-0346f16efe90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2073&q=80" price="90"/>        
+        </div>
       </main>
     </div>
   )
